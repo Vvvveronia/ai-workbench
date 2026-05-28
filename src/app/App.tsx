@@ -45,11 +45,11 @@ function Hero({ setActiveTab }: { setActiveTab: (id: string) => void }) {
           <div className="space-y-5 pt-2 flex flex-col items-center">
             <div className="flex flex-wrap items-center justify-center gap-4">
               <button 
-                onClick={() => setActiveTab('workflow')}
+                onClick={() => setActiveTab('provider')}
                 className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
               >
-                <Workflow className="w-5 h-5" />
-                查看完整工作流
+                <Plug className="w-5 h-5" />
+                查看工具选型建议
               </button>
               <button 
                 onClick={() => setActiveTab('provider')}
@@ -70,155 +70,157 @@ function Hero({ setActiveTab }: { setActiveTab: (id: string) => void }) {
           </div>
         </div>
       </div>
+    </section>
+  );
+}
 
-      <div className="max-w-[1400px] mx-auto w-full pt-12 border-t border-border/50">
-        <div className="mb-8 flex flex-col items-center text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-2">工具选型建议</h3>
-          <p className="text-muted-foreground text-sm max-w-2xl">不同需求，不同工作流：不是所有场景都需要同一套 AI 工具链。</p>
-        </div>
+function ToolSelectionAdvice() {
+  return (
+    <div className="w-full">
+      <div className="mb-8 flex flex-col items-center text-center">
+        <h3 className="text-2xl font-bold text-foreground mb-2">工具选型建议</h3>
+        <p className="text-muted-foreground text-sm max-w-2xl">不同需求，不同工作流：不是所有场景都需要同一套 AI 工具链。</p>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.7fr] gap-6 relative">
-          {/* Card 1 */}
-          <div className="bg-card border border-border rounded-2xl p-6 flex flex-col shadow-sm hover:shadow-md hover:border-primary/40 transition-all group">
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h4 className="text-lg font-bold text-foreground mb-1">内部看板 / 团队传阅</h4>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Fast</span>
-                  <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Internal</span>
-                  <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Low UI Req</span>
-                </div>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center shrink-0">
-                <LayoutTemplate className="w-5 h-5 text-slate-500" />
+      <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.7fr] gap-6 relative">
+        <div className="bg-card border border-border rounded-2xl p-6 flex flex-col shadow-sm hover:shadow-md hover:border-primary/40 transition-all group">
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h4 className="text-lg font-bold text-foreground mb-1">内部看板 / 团队传阅</h4>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Fast</span>
+                <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Internal</span>
+                <span className="text-[10px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-1 rounded uppercase tracking-wider">Low UI Req</span>
               </div>
             </div>
-            
-            <div className="flex-1 space-y-4 text-sm mt-2">
-              <div>
-                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">适用场景</div>
-                <ul className="space-y-1 text-slate-600 dark:text-slate-300">
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 团队内部查看的看板</li>
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 不追求高保真 UI</li>
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 快速生成页面结构和内容</li>
-                  <li className="flex gap-2 text-muted-foreground text-xs ml-5 mt-0.5">例如：数据看板、周报页、信息汇总页、简单管理后台</li>
-                </ul>
-              </div>
-              
-              <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
-                <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">推荐方式</div>
-                <div className="font-medium text-foreground">公司 Muse / Vibe Coding 快速生成</div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1">优点</div>
-                  <ul className="space-y-1 text-xs text-muted-foreground">
-                    <li>• 上手快</li>
-                    <li>• 不需要复杂设计流程</li>
-                    <li>• 适合低成本验证</li>
-                  </ul>
-                </div>
-                <div>
-                  <div className="text-xs font-semibold text-amber-600 dark:text-amber-400 mb-1">局限</div>
-                  <ul className="space-y-1 text-xs text-muted-foreground">
-                    <li>• 设计表现一般</li>
-                    <li>• 模型能力不稳定</li>
-                    <li>• 复杂交互不易控制</li>
-                  </ul>
-                </div>
-              </div>
+            <div className="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800/50 flex items-center justify-center shrink-0">
+              <LayoutTemplate className="w-5 h-5 text-slate-500" />
             </div>
           </div>
-
-          {/* Card 2 */}
-          <div className="bg-card border-2 border-primary/20 rounded-2xl p-6 lg:p-7 flex flex-col shadow-md hover:shadow-lg hover:border-primary/50 transition-all group relative overflow-hidden">
-            <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
-              推荐链路
-            </div>
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <h4 className="text-lg font-bold text-foreground mb-1">高保真原型 + 前端复现落地</h4>
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">High Fidelity</span>
-                  <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">Product Demo</span>
-                  <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">Design First</span>
-                  <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Code</span>
-                  <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Deploy</span>
-                  <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Engineering</span>
-                </div>
-              </div>
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <Sparkles className="w-5 h-5 text-primary" />
-              </div>
+          
+          <div className="flex-1 space-y-4 text-sm mt-2">
+            <div>
+              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">适用场景</div>
+              <ul className="space-y-1 text-slate-600 dark:text-slate-300">
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 团队内部查看的看板</li>
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 不追求高保真 UI</li>
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 快速生成页面结构和内容</li>
+                <li className="flex gap-2 text-muted-foreground text-xs ml-5 mt-0.5">例如：数据看板、周报页、信息汇总页、简单管理后台</li>
+              </ul>
             </div>
             
-            <div className="grid grid-cols-1 2xl:grid-cols-[1fr_auto_1fr] gap-5 flex-1 text-sm mt-2">
-              <div className="space-y-4">
-                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">适用场景</div>
-                <ul className="space-y-1 text-slate-600 dark:text-slate-300">
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 需要对老板、团队或用户展示</li>
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 需要更强页面观感，像真实产品而不是普通页面</li>
-                  <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5" /> 需要继续接 API、部署或工程化迭代</li>
-                  <li className="flex gap-2 text-muted-foreground text-xs ml-5 mt-0.5">例如：产品 Demo、工具原型、对外展示页、可运行内部工具</li>
+            <div className="bg-primary/5 p-3 rounded-lg border border-primary/10">
+              <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">推荐方式</div>
+              <div className="font-medium text-foreground">公司 Muse / Vibe Coding 快速生成</div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1">优点</div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  <li>• 上手快</li>
+                  <li>• 不需要复杂设计流程</li>
+                  <li>• 适合低成本验证</li>
                 </ul>
               </div>
-
-              <div className="hidden 2xl:flex items-center justify-center px-1">
-                <div className="flex flex-col items-center text-primary/60">
-                  <div className="w-px h-16 bg-primary/20"></div>
-                  <ArrowRight className="w-5 h-5 my-2" />
-                  <div className="w-px h-16 bg-indigo-500/20"></div>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div className="bg-primary/10 p-3 rounded-lg border border-primary/20 shadow-inner">
-                    <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Step 1 设计生成</div>
-                    <div className="font-medium text-foreground">Gemini 3.1 Pro + Figma Make</div>
-                  </div>
-                  <div className="bg-indigo-500/5 p-3 rounded-lg border border-indigo-500/10">
-                    <div className="text-xs font-semibold text-indigo-500 uppercase tracking-wider mb-1">Step 2 代码落地</div>
-                    <div className="font-medium text-foreground">Codex + GPT-5.5 工程实现</div>
-                  </div>
-                </div>
-
-                <div>
-                  <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1">核心优势</div>
-                  <ul className="space-y-1 text-xs text-muted-foreground">
-                    <li>• 先保证视觉质量，再保证代码可维护</li>
-                    <li>• 兼容文字、线框图、Figma 组件、PNG/JPG 等多维输入</li>
-                    <li>• 根据 Figma 页面结构精准复现前端，后续可接 API 和部署</li>
-                  </ul>
-                </div>
-
-                <div className="bg-slate-50 border border-border rounded-lg p-3">
-                  <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">协作链路</div>
-                  <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-600">
-                    <span>产品方案</span><ArrowRight className="w-3.5 h-3.5 text-primary" />
-                    <span>Figma Make</span><ArrowRight className="w-3.5 h-3.5 text-primary" />
-                    <span>MCP 设计上下文</span><ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
-                    <span>Codex 复现</span><ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
-                    <span>人工验收</span>
-                  </div>
-                </div>
+              <div>
+                <div className="text-xs font-semibold text-amber-600 dark:text-amber-400 mb-1">局限</div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  <li>• 设计表现一般</li>
+                  <li>• 模型能力不稳定</li>
+                  <li>• 复杂交互不易控制</li>
+                </ul>
               </div>
             </div>
           </div>
         </div>
-        
-        <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-center flex flex-col items-center justify-center">
-          <p className="text-sm font-medium text-foreground">
-            轻量内部页可直接用 Muse / Vibe；高质量产品原型建议先用 <strong className="text-primary font-bold">Gemini / Figma Make 设计</strong>，再用 <strong className="text-indigo-500 font-bold">Codex / GPT-5.5 复现成代码</strong>。
-          </p>
-          <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
-            <Lock className="w-3.5 h-3.5" />
-            <span>账号与成本建议：优先使用公司授权或官方合规账号；如使用个人账号，请注意账号安全与公司数据安全规范。</span>
+
+        <div className="bg-card border-2 border-primary/20 rounded-2xl p-6 lg:p-7 flex flex-col shadow-md hover:shadow-lg hover:border-primary/50 transition-all group relative overflow-hidden">
+          <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+            推荐链路
+          </div>
+          <div className="flex items-start justify-between mb-4">
+            <div>
+              <h4 className="text-lg font-bold text-foreground mb-1">高保真原型 + 前端复现落地</h4>
+              <div className="flex flex-wrap gap-2 mt-2">
+                <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">High Fidelity</span>
+                <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">Product Demo</span>
+                <span className="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase tracking-wider">Design First</span>
+                <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Code</span>
+                <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Deploy</span>
+                <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-500 px-2 py-1 rounded uppercase tracking-wider">Engineering</span>
+              </div>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+              <Sparkles className="w-5 h-5 text-primary" />
+            </div>
+          </div>
+          
+          <div className="grid grid-cols-1 2xl:grid-cols-[1fr_auto_1fr] gap-5 flex-1 text-sm mt-2">
+            <div className="space-y-4">
+              <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1.5">适用场景</div>
+              <ul className="space-y-1 text-slate-600 dark:text-slate-300">
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 需要对老板、团队或用户展示</li>
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" /> 需要更强页面观感，像真实产品而不是普通页面</li>
+                <li className="flex gap-2"><Check className="w-3.5 h-3.5 text-indigo-500 shrink-0 mt-0.5" /> 需要继续接 API、部署或工程化迭代</li>
+                <li className="flex gap-2 text-muted-foreground text-xs ml-5 mt-0.5">例如：产品 Demo、工具原型、对外展示页、可运行内部工具</li>
+              </ul>
+            </div>
+
+            <div className="hidden 2xl:flex items-center justify-center px-1">
+              <div className="flex flex-col items-center text-primary/60">
+                <div className="w-px h-16 bg-primary/20"></div>
+                <ArrowRight className="w-5 h-5 my-2" />
+                <div className="w-px h-16 bg-indigo-500/20"></div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="bg-primary/10 p-3 rounded-lg border border-primary/20 shadow-inner">
+                  <div className="text-xs font-semibold text-primary uppercase tracking-wider mb-1">Step 1 设计生成</div>
+                  <div className="font-medium text-foreground">Gemini 3.1 Pro + Figma Make</div>
+                </div>
+                <div className="bg-indigo-500/5 p-3 rounded-lg border border-indigo-500/10">
+                  <div className="text-xs font-semibold text-indigo-500 uppercase tracking-wider mb-1">Step 2 代码落地</div>
+                  <div className="font-medium text-foreground">Codex + GPT-5.5 工程实现</div>
+                </div>
+              </div>
+
+              <div>
+                <div className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mb-1">核心优势</div>
+                <ul className="space-y-1 text-xs text-muted-foreground">
+                  <li>• 先保证视觉质量，再保证代码可维护</li>
+                  <li>• 兼容文字、线框图、Figma 组件、PNG/JPG 等多维输入</li>
+                  <li>• 根据 Figma 页面结构精准复现前端，后续可接 API 和部署</li>
+                </ul>
+              </div>
+
+              <div className="bg-slate-50 border border-border rounded-lg p-3">
+                <div className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">协作链路</div>
+                <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-slate-600">
+                  <span>产品方案</span><ArrowRight className="w-3.5 h-3.5 text-primary" />
+                  <span>Figma Make</span><ArrowRight className="w-3.5 h-3.5 text-primary" />
+                  <span>MCP 设计上下文</span><ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
+                  <span>Codex 复现</span><ArrowRight className="w-3.5 h-3.5 text-indigo-500" />
+                  <span>人工验收</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+
+      <div className="mt-8 bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 rounded-xl p-4 text-center flex flex-col items-center justify-center">
+        <p className="text-sm font-medium text-foreground">
+          轻量内部页可直接用 Muse / Vibe；高质量产品原型建议先用 <strong className="text-primary font-bold">Gemini / Figma Make 设计</strong>，再用 <strong className="text-indigo-500 font-bold">Codex / GPT-5.5 复现成代码</strong>。
+        </p>
+        <div className="mt-3 flex items-center gap-2 text-xs text-muted-foreground">
+          <Lock className="w-3.5 h-3.5" />
+          <span>账号与成本建议：优先使用公司授权或官方合规账号；如使用个人账号，请注意账号安全与公司数据安全规范。</span>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -352,6 +354,10 @@ function ProviderHub() {
               这三家 AI 在 6.1 后可以申请报销，具体条款可以蚂蚁小蜜搜索<span className="font-semibold px-1">“token报销”</span>查看。
             </div>
           </div>
+        </div>
+
+        <div className="mb-14 rounded-3xl border border-border bg-slate-50/70 p-6 lg:p-8">
+          <ToolSelectionAdvice />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-left">
@@ -1700,7 +1706,6 @@ export default function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(() => typeof window === 'undefined' ? true : window.innerWidth >= 768);
   const tabLabels: Record<string, string> = {
     hero: '工作台总览',
-    workflow: '完整工作流',
     provider: 'AI 接入中心',
     pipeline: '原型流水线',
     clinic: 'Prompt 设计',
@@ -1719,7 +1724,6 @@ export default function App() {
         <Header isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} currentLabel={tabLabels[activeTab] ?? '工作台总览'} />
         <main key={activeTab} className="flex-1 w-full overflow-y-auto custom-scrollbar animate-in fade-in duration-300 relative">
           {activeTab === 'hero' && <Hero setActiveTab={setActiveTab} />}
-          {activeTab === 'workflow' && <WorkflowOverview setActiveTab={setActiveTab} />}
           {activeTab === 'provider' && (
             <>
               <ProviderHub />

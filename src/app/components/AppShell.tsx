@@ -22,7 +22,6 @@ type SidebarProps = {
 export function Sidebar({ activeTab, setActiveTab, isOpen }: SidebarProps) {
   const navs = [
     { id: 'hero', icon: Home, label: '工作台总览' },
-    { id: 'workflow', icon: Layers, label: '完整工作流' },
     { id: 'provider', icon: Plug, label: 'AI 接入中心' },
     { id: 'pipeline', icon: Workflow, label: '原型流水线' },
     { id: 'clinic', icon: Stethoscope, label: 'Prompt 设计' },
