@@ -4,6 +4,7 @@ dist
 .env.*
 !.env.example
 !.env.local.example
+!.env.production.example
 .DS_Store
 *.log
 workbench-screenshot.png

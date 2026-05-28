@@ -1,0 +1,7 @@
+name = "ai-workbench-prompt"
+main = "deepseek-proxy.js"
+compatibility_date = "2026-05-28"
+
+[vars]
+DEEPSEEK_MODEL = "deepseek-v4-flash"
+

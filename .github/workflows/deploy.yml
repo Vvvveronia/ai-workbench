@@ -33,6 +33,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_PROMPT_API_URL: ${{ vars.VITE_PROMPT_API_URL }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -52,4 +54,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-

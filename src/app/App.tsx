@@ -19,6 +19,8 @@ import figmaMakePublishImage from '../imports/publish.png';
 import codexRebuildImage from '../imports/复现.png';
 import mcpSetupImage from '../imports/mcp界面.png';
 
+const promptApiUrl = import.meta.env.VITE_PROMPT_API_URL || '/api/generate-prompt';
+
 // ----------------- Components -----------------
 
 // 1. Hero Dashboard
@@ -848,7 +850,7 @@ function PromptConverter() {
     setGeneratedPrompt("");
 
     try {
-      const response = await fetch('/api/generate-prompt', {
+      const response = await fetch(promptApiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -856,9 +858,10 @@ function PromptConverter() {
         body: JSON.stringify(formData)
       });
 
-      const data = await response.json();
+      const contentType = response.headers.get('Content-Type') || '';
+      const data = contentType.includes('application/json') ? await response.json() : {};
       if (!response.ok) {
-        throw new Error(data?.error || '生成失败，请稍后重试。');
+        throw new Error(data?.error || 'Prompt API 未配置或暂不可用，请检查线上后端代理。');
       }
 
       setGeneratedPrompt(data.prompt);
