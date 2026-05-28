@@ -47,6 +47,110 @@ function Hero() {
   );
 }
 
+function VibeExamples() {
+  const examples = [
+    {
+      title: '内部二级页面',
+      label: 'Vibe Coding',
+      description: '从业务指令快速生成可演示的二级页面，适合内部看板、流程页和轻量工具入口。',
+      url: 'https://vibe.antgroup-inc.cn/apps/ovjxn1mztng#/command',
+      icon: MonitorPlay,
+      accent: 'from-primary/15 to-cyan-500/10',
+      tags: ['内部应用', '二级页面', '快速验证'],
+    },
+    {
+      title: '有记忆的 Agent',
+      label: 'Agent Demo',
+      description: '一个可以自动更迭、有记忆能力的 Agent 页面，用 Vibe Coding 搭出可体验的产品雏形。',
+      url: 'https://www.lkqbc.com/',
+      icon: Sparkles,
+      accent: 'from-indigo-500/15 to-emerald-500/10',
+      tags: ['记忆能力', '自动迭代', '在线访问'],
+    },
+    {
+      title: '这套 AI Workbench',
+      label: 'Current Page',
+      description: '现在正在展示的整套页面本身，也来自 Vibe Coding 生成后持续整理、接 API、部署上线。',
+      url: 'https://vvvveronia.github.io/ai-workbench/',
+      icon: Workflow,
+      accent: 'from-violet-500/15 to-slate-500/10',
+      tags: ['工作台', 'API 接入', 'GitHub Pages'],
+    },
+  ];
+
+  return (
+    <section id="vibe-examples" className="px-8 pb-14">
+      <div className="max-w-[1400px] mx-auto">
+        <div className="rounded-[2rem] border border-border bg-white/80 shadow-sm p-6 md:p-8">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider mb-4">
+                <Rocket className="w-3.5 h-3.5" />
+                Vibe Coding Examples
+              </div>
+              <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-2">先看几个已经跑起来的例子</h3>
+              <p className="text-muted-foreground max-w-2xl leading-relaxed">
+                不是先讲概念，而是先让大家看到：用自然语言和少量迭代，已经可以把页面、Agent 和内部工具快速做成可访问的 Demo。
+              </p>
+            </div>
+            <div className="text-sm text-muted-foreground bg-slate-50 border border-border rounded-xl px-4 py-3">
+              核心感受：先做出来，再判断值不值得继续工程化。
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            {examples.map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <a
+                  key={item.title}
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group rounded-2xl border border-border bg-card p-5 shadow-sm hover:shadow-lg hover:border-primary/40 transition-all hover:-translate-y-1"
+                >
+                  <div className={`h-28 rounded-xl bg-gradient-to-br ${item.accent} border border-border/70 mb-5 p-4 flex flex-col justify-between overflow-hidden`}>
+                    <div className="flex items-center justify-between">
+                      <div className="flex gap-1.5">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-300" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-amber-300" />
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-300" />
+                      </div>
+                      <span className="text-[10px] font-bold text-muted-foreground">CASE 0{index + 1}</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className="w-11 h-11 rounded-xl bg-white/80 border border-white shadow-sm flex items-center justify-center text-primary">
+                        <Icon className="w-5 h-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-sm font-bold text-foreground truncate">{item.title}</div>
+                        <div className="text-xs text-muted-foreground truncate">{item.label}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start justify-between gap-3 mb-3">
+                    <h4 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">{item.title}</h4>
+                    <ExternalLink className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-1" />
+                  </div>
+                  <p className="text-sm text-muted-foreground leading-relaxed min-h-[4.5rem]">{item.description}</p>
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {item.tags.map((tag) => (
+                      <span key={tag} className="px-2.5 py-1 rounded-md bg-slate-50 border border-border text-[11px] font-semibold text-slate-600">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ToolSelectionAdvice() {
   return (
     <div className="w-full">
@@ -1699,6 +1803,7 @@ export default function App() {
           {activeTab === 'hero' && (
             <>
               <Hero />
+              <VibeExamples />
               <WorkflowOverview setActiveTab={setActiveTab} />
             </>
           )}
