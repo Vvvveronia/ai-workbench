@@ -1,14 +1,24 @@
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
+const ALLOWED_ORIGINS = new Set([
+  'https://vvvveronia.github.io',
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+]);
 
-function jsonResponse(payload, status = 200) {
+function corsHeadersFor(origin) {
+  const allow = origin && ALLOWED_ORIGINS.has(origin) ? origin : 'https://vvvveronia.github.io';
+  return {
+    'Access-Control-Allow-Origin': allow,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    Vary: 'Origin',
+  };
+}
+
+function jsonResponse(payload, status, origin) {
   return new Response(JSON.stringify(payload), {
     status,
     headers: {
-      ...corsHeaders,
+      ...corsHeadersFor(origin),
       'Content-Type': 'application/json; charset=utf-8',
     },
   });
@@ -30,17 +40,19 @@ function buildPrompt(formData) {
 
 export default {
   async fetch(request, env) {
+    const origin = request.headers.get('Origin');
+
     if (request.method === 'OPTIONS') {
-      return new Response(null, { status: 204, headers: corsHeaders });
+      return new Response(null, { status: 204, headers: corsHeadersFor(origin) });
     }
 
     const url = new URL(request.url);
     if (request.method !== 'POST' || url.pathname !== '/api/generate-prompt') {
-      return jsonResponse({ error: 'Not found' }, 404);
+      return jsonResponse({ error: 'Not found' }, 404, origin);
     }
 
     if (!env.DEEPSEEK_API_KEY) {
-      return jsonResponse({ error: 'Missing DEEPSEEK_API_KEY in Worker secrets.' }, 500);
+      return jsonResponse({ error: 'Missing DEEPSEEK_API_KEY in Worker secrets.' }, 500, origin);
     }
 
     try {
@@ -67,18 +79,17 @@ export default {
 
       const data = await response.json();
       if (!response.ok) {
-        return jsonResponse({ error: data?.error?.message || 'DeepSeek request failed' }, response.status);
+        return jsonResponse({ error: data?.error?.message || 'DeepSeek request failed' }, response.status, origin);
       }
 
       const prompt = data?.choices?.[0]?.message?.content?.trim();
       if (!prompt) {
-        return jsonResponse({ error: 'DeepSeek returned empty content' }, 502);
+        return jsonResponse({ error: 'DeepSeek returned empty content' }, 502, origin);
       }
 
-      return jsonResponse({ prompt });
+      return jsonResponse({ prompt }, 200, origin);
     } catch (error) {
-      return jsonResponse({ error: error instanceof Error ? error.message : 'Unknown server error' }, 500);
+      return jsonResponse({ error: error instanceof Error ? error.message : 'Unknown server error' }, 500, origin);
     }
   },
 };
-

@@ -34,7 +34,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          VITE_PROMPT_API_URL: ${{ vars.VITE_PROMPT_API_URL }}
+          VITE_PROMPT_API_URL: ${{ vars.VITE_PROMPT_API_URL || 'https://ai-workbench-prompt.baiguai8520.workers.dev/api/generate-prompt' }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
