@@ -473,31 +473,37 @@ function SetupWizard() {
   const [activeStep, setActiveStep] = useState(1);
   const steps = [
     {
-      num: 1, title: "检查客户端版本", tag: "Required",
+      num: 1, title: "安装 CFuse", tag: "Install",
+      desc: "首次使用前，先在终端安装 CFuse 客户端。安装完成后再继续检查版本和执行托管。",
+      cmd: "curl -o- http://cloudideoss.cn-hangzhou-alipay-b.oss-cdn.aliyun-inc.com/cfuse/install.sh | bash",
+      hint: "如果终端提示需要确认，请按提示完成安装；安装后建议重新打开一个终端窗口。"
+    },
+    {
+      num: 2, title: "检查客户端版本", tag: "Required",
       desc: "确认客户端版本 ≥ 2.6.19。",
       cmd: "cfuse --cf --version",
       hint: "如果版本过低，需要先升级客户端。"
     },
     {
-      num: 2, title: "执行托管命令", tag: "Manage",
+      num: 3, title: "执行托管命令", tag: "Manage",
       desc: "确认需要托管的产品，然后根据提示完成托管备案。",
       cmd: "# Claude Code\ncfuse --cc manage\n\n# Codex\ncfuse --cx manage\n\n# Gemini\n预计上线",
       hint: "托管过程中将完成备案与本地客户端采集插件安装。"
     },
     {
-      num: 3, title: "等待托管过程", tag: "Processing",
+      num: 4, title: "等待托管过程", tag: "Processing",
       desc: "等待托管完成，过程中通常会执行两部分操作：\n1. 上报托管备案\n2. 本地客户端安装统计 / 采集插件",
       cmd: "",
       hint: "向客户端中安装采集插件，包括 CFuse 内置版本客户端和官方版本客户端。"
     },
     {
-      num: 4, title: "验证托管状态", tag: "Verify",
+      num: 5, title: "验证托管状态", tag: "Verify",
       desc: "如果状态显示“已备案”，说明托管成功。",
       cmd: "# Claude Code\ncfuse --cc manage status\n\n# Codex\ncfuse --cx manage status",
       hint: ""
     },
     {
-      num: 5, title: "启动官方工具", tag: "Launch",
+      num: 6, title: "启动官方工具", tag: "Launch",
       desc: "托管后，可以通过 cfuse 启动，也可以直接使用官方 CLI 或 App。",
       cmd: "# Claude Code\ncfuse --cc\n\n# Codex\ncfuse --cx",
       hint: ""
