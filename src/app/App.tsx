@@ -922,6 +922,7 @@ function PromptConverter() {
   const [generated, setGenerated] = useState(false);
   const [generatedPrompt, setGeneratedPrompt] = useState("");
   const [generateError, setGenerateError] = useState("");
+  const [copySuccess, setCopySuccess] = useState(false);
 
   const [formData, setFormData] = useState({
     problem: "我想做一个优惠券活动，目标是提升新用户首单转化率。",
@@ -955,7 +956,7 @@ function PromptConverter() {
 
       setGeneratedPrompt(data.prompt);
       setGenerated(true);
-      setActiveStep(4);
+      setActiveStep(3);
     } catch (error) {
       setGenerateError(error instanceof Error ? error.message : '生成失败，请稍后重试。');
     } finally {
@@ -975,10 +976,23 @@ function PromptConverter() {
     setGenerated(false);
     setGeneratedPrompt("");
     setGenerateError("");
+    setCopySuccess(false);
     setActiveStep(2);
   };
 
   const outputPrompt = generatedPrompt;
+  const promptSteps = [
+    { id: 1, label: "自然语言描述" },
+    { id: 2, label: "结构补全" },
+    { id: 3, label: "Prompt 生成" }
+  ];
+
+  const handleCopyPrompt = async () => {
+    if (!outputPrompt) return;
+    await navigator.clipboard.writeText(outputPrompt);
+    setCopySuccess(true);
+    window.setTimeout(() => setCopySuccess(false), 1800);
+  };
 
   return (
     <section id="prompt-converter" className="py-20 px-8 bg-slate-50 border-t border-border">
@@ -990,12 +1004,7 @@ function PromptConverter() {
 
         <div className="bg-white border border-border rounded-2xl p-4 mb-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="flex items-center gap-6 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 no-scrollbar">
-            {[
-              { id: 1, label: "自然语言描述" },
-              { id: 2, label: "结构补全" },
-              { id: 3, label: "Prompt 生成" },
-              { id: 4, label: "模板保存" }
-            ].map((step, i) => (
+            {promptSteps.map((step, i) => (
               <React.Fragment key={step.id}>
                 <div className="flex items-center gap-3 shrink-0">
                   <div className={cn(
@@ -1008,7 +1017,7 @@ function PromptConverter() {
                     {step.label}
                   </span>
                 </div>
-                {i < 3 && <div className={cn("h-px w-8 shrink-0", activeStep > step.id ? "bg-primary" : "bg-slate-200")}></div>}
+                {i < promptSteps.length - 1 && <div className={cn("h-px w-8 shrink-0", activeStep > step.id ? "bg-primary" : "bg-slate-200")}></div>}
               </React.Fragment>
             ))}
           </div>
@@ -1078,16 +1087,21 @@ function PromptConverter() {
                     <Terminal className="w-4 h-4 text-primary" />
                     生成后的优质 Prompt
                   </h3>
-                  <p className="text-[10px] text-slate-500 font-medium mt-0.5">可直接复制给 AI，或保存为团队模板。</p>
+                  <p className="text-[10px] text-slate-500 font-medium mt-0.5">可直接复制给 AI 使用。</p>
                 </div>
                 <div className="flex gap-2">
                   <button 
-                    onClick={() => navigator.clipboard.writeText(outputPrompt)}
+                    onClick={handleCopyPrompt}
                     disabled={!outputPrompt}
-                    className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors border border-slate-700 shadow-inner group relative"
+                    className="p-2 bg-slate-800 hover:bg-slate-700 disabled:opacity-50 disabled:hover:bg-slate-800 text-slate-300 rounded-lg transition-colors border border-slate-700 shadow-inner group relative"
                   >
-                    <Copy className="w-4 h-4" />
-                    <span className="absolute -bottom-10 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-[10px] px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">复制内容</span>
+                    {copySuccess ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
+                    <span className={cn(
+                      "absolute -bottom-10 left-1/2 -translate-x-1/2 text-white text-[10px] px-2 py-1 rounded transition-opacity whitespace-nowrap",
+                      copySuccess ? "bg-emerald-500 opacity-100" : "bg-slate-800 opacity-0 group-hover:opacity-100"
+                    )}>
+                      {copySuccess ? "复制成功" : "复制内容"}
+                    </span>
                   </button>
                 </div>
               </div>
