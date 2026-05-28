@@ -24,7 +24,7 @@ const promptApiUrl = import.meta.env.VITE_PROMPT_API_URL || '/api/generate-promp
 // ----------------- Components -----------------
 
 // 1. Hero Dashboard
-function Hero({ setActiveTab }: { setActiveTab: (id: string) => void }) {
+function Hero() {
   return (
     <section id="hero" className="flex-1 flex flex-col justify-center py-12 px-8 min-h-[80vh]">
       <div className="max-w-[1400px] mx-auto flex flex-col justify-center items-center text-center mt-4 mb-16">
@@ -40,33 +40,6 @@ function Hero({ setActiveTab }: { setActiveTab: (id: string) => void }) {
             <p className="text-lg text-muted-foreground leading-relaxed mx-auto max-w-3xl">
               本次分享会将围绕一条完整的 AI 落地链路展开：从 <strong className="text-foreground font-semibold">CFuse 托管</strong> 接入 Claude / Codex / Gemini，到结构化 <strong className="text-foreground font-semibold">Prompt 设计</strong>，再到 <strong className="text-foreground font-semibold">GPT + Figma Make + Codex</strong> 的原型生产流水线，最终将过程沉淀为<strong className="text-foreground font-semibold">团队可复用资产</strong>，并通过<strong className="text-foreground font-semibold">安全红线</strong>控制风险。
             </p>
-          </div>
-          
-          <div className="space-y-5 pt-2 flex flex-col items-center">
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <button 
-                onClick={() => setActiveTab('provider')}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-xl font-semibold flex items-center gap-3 transition-all shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:-translate-y-0.5"
-              >
-                <Plug className="w-5 h-5" />
-                查看工具选型建议
-              </button>
-              <button 
-                onClick={() => setActiveTab('provider')}
-                className="text-muted-foreground hover:text-foreground px-6 py-4 rounded-xl font-medium flex items-center gap-2 transition-colors hover:bg-muted/50"
-              >
-                直接进入第一步
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="space-y-2 text-center">
-              <p className="text-sm text-foreground/80 font-medium flex items-center justify-center gap-2">
-                <Info className="w-4 h-4 text-primary" /> 从 CFuse 托管开始，先打通公司内网与 AI 工具。
-              </p>
-              <p className="text-xs text-muted-foreground">
-                建议按顺序体验：接入 → Prompt → 原型 → 沉淀 → 安全
-              </p>
-            </div>
           </div>
         </div>
       </div>
@@ -1723,7 +1696,12 @@ export default function App() {
       )}>
         <Header isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} currentLabel={tabLabels[activeTab] ?? '工作台总览'} />
         <main key={activeTab} className="flex-1 w-full overflow-y-auto custom-scrollbar animate-in fade-in duration-300 relative">
-          {activeTab === 'hero' && <Hero setActiveTab={setActiveTab} />}
+          {activeTab === 'hero' && (
+            <>
+              <Hero />
+              <WorkflowOverview setActiveTab={setActiveTab} />
+            </>
+          )}
           {activeTab === 'provider' && (
             <>
               <ProviderHub />
