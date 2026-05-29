@@ -471,6 +471,7 @@ function ProviderHub() {
 // 3. CFuse Setup Wizard
 function SetupWizard() {
   const [activeStep, setActiveStep] = useState(1);
+  const [copyToastVisible, setCopyToastVisible] = useState(false);
   const steps = [
     {
       num: 1, title: "安装 CFuse", tag: "Install",
@@ -509,9 +510,25 @@ function SetupWizard() {
       hint: ""
     }
   ];
+  const currentStep = steps[activeStep - 1];
+
+  const copyStepCommand = async () => {
+    if (!currentStep.cmd) return;
+    await navigator.clipboard.writeText(currentStep.cmd);
+    setCopyToastVisible(true);
+    window.setTimeout(() => setCopyToastVisible(false), 1800);
+  };
 
   return (
     <section id="setup" className="py-16 px-8 bg-slate-50 border-t border-border">
+      {copyToastVisible && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 z-[80] animate-in fade-in slide-in-from-top-2 duration-200">
+          <div className="flex items-center gap-2 rounded-full bg-slate-950 text-white px-5 py-3 shadow-2xl border border-white/10">
+            <CheckCircle2 className="w-5 h-5 text-emerald-400" />
+            <span className="text-sm font-semibold">复制成功</span>
+          </div>
+        </div>
+      )}
       <div className="max-w-7xl mx-auto">
         <div className="mb-10 text-left">
           <h2 className="text-3xl font-bold text-foreground mb-2">CFuse Bridge SOP</h2>
@@ -541,34 +558,41 @@ function SetupWizard() {
           <div className="md:w-2/3">
             <div className="bg-white border border-border rounded-2xl p-8 shadow-sm min-h-[400px] flex flex-col">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-2xl font-bold text-foreground">Step {activeStep}: {steps[activeStep-1].title}</h3>
-                <span className="px-3 py-1 bg-accent text-primary text-xs font-semibold rounded-full">{steps[activeStep-1].tag}</span>
+                <h3 className="text-2xl font-bold text-foreground">Step {activeStep}: {currentStep.title}</h3>
+                <span className="px-3 py-1 bg-accent text-primary text-xs font-semibold rounded-full">{currentStep.tag}</span>
               </div>
               
               <div className="flex-1 space-y-6">
                 <div>
                   <h4 className="text-sm font-medium text-muted-foreground mb-2">说明</h4>
-                  <p className="text-base whitespace-pre-line leading-relaxed">{steps[activeStep-1].desc}</p>
+                  <p className="text-base whitespace-pre-line leading-relaxed">{currentStep.desc}</p>
                 </div>
 
-                {steps[activeStep-1].cmd && (
+                {currentStep.cmd && (
                   <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">命令</h4>
-                    <div className="relative group">
-                      <pre className="bg-slate-900 text-slate-50 p-4 rounded-lg font-mono text-sm overflow-x-auto">
-                        <code>{steps[activeStep-1].cmd}</code>
-                      </pre>
-                      <button className="absolute top-2 right-2 p-1.5 bg-slate-800 text-slate-300 rounded hover:text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                        <Copy className="w-4 h-4" />
+                    <div className="flex items-center justify-between gap-3 mb-2">
+                      <h4 className="text-sm font-medium text-muted-foreground">命令</h4>
+                      <button
+                        type="button"
+                        onClick={copyStepCommand}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-primary hover:text-white text-slate-600 text-xs font-semibold transition-colors border border-border"
+                      >
+                        <Copy className="w-3.5 h-3.5" />
+                        复制命令
                       </button>
+                    </div>
+                    <div className="relative">
+                      <pre className="bg-slate-900 text-slate-50 p-4 rounded-lg font-mono text-sm whitespace-pre-wrap break-all">
+                        <code>{currentStep.cmd}</code>
+                      </pre>
                     </div>
                   </div>
                 )}
 
-                {steps[activeStep-1].hint && (
+                {currentStep.hint && (
                   <div className="bg-blue-50 border border-blue-100 p-4 rounded-lg flex gap-3 text-sm text-blue-800">
                     <AlertCircle className="w-5 h-5 shrink-0 text-blue-500" />
-                    <div>{steps[activeStep-1].hint}</div>
+                    <div>{currentStep.hint}</div>
                   </div>
                 )}
               </div>
