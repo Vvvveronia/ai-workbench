@@ -1259,8 +1259,65 @@ function PromptRefactorSuite() {
 }
 
 function FigmaMakeWorkflow() {
+  const [previewImage, setPreviewImage] = useState<{ src: string; alt: string } | null>(null);
+  const ZoomableImage = ({ src, alt }: { src: string; alt: string }) => (
+    <button
+      type="button"
+      onClick={() => setPreviewImage({ src, alt })}
+      className="group/image block w-full rounded-lg border border-slate-200 bg-white shadow-sm overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-primary/40"
+      aria-label={`放大查看：${alt}`}
+    >
+      <span className="relative block">
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-auto object-contain bg-white transition-transform duration-300 group-hover/image:scale-[1.015]"
+        />
+        <span className="absolute inset-0 flex items-center justify-center bg-slate-950/0 group-hover/image:bg-slate-950/20 transition-colors">
+          <span className="opacity-0 group-hover/image:opacity-100 transition-opacity inline-flex items-center gap-2 rounded-full bg-white/95 px-3 py-1.5 text-xs font-bold text-slate-700 shadow-lg">
+            <Search className="w-3.5 h-3.5" />
+            点击放大
+          </span>
+        </span>
+      </span>
+    </button>
+  );
+
   return (
     <section id="figmamake" className="py-20 px-4 sm:px-6 lg:px-8 bg-background flex-1 border-t border-border/50 overflow-x-hidden">
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-[90] bg-slate-950/80 backdrop-blur-sm p-4 md:p-8 flex items-center justify-center animate-in fade-in duration-200"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div
+            className="relative w-full max-w-6xl max-h-[90vh] rounded-2xl bg-white border border-white/20 shadow-2xl overflow-hidden"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-center justify-between gap-4 px-4 py-3 border-b border-border bg-white">
+              <div className="min-w-0">
+                <div className="text-sm font-bold text-foreground truncate">{previewImage.alt}</div>
+                <div className="text-xs text-muted-foreground">点击背景或右上角关闭</div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPreviewImage(null)}
+                className="w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center transition-colors shrink-0"
+                aria-label="关闭图片预览"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="max-h-[calc(90vh-4rem)] overflow-auto bg-slate-100 p-3">
+              <img
+                src={previewImage.src}
+                alt={previewImage.alt}
+                className="mx-auto max-w-full h-auto rounded-lg bg-white shadow-sm"
+              />
+            </div>
+          </div>
+        </div>
+      )}
       <div className="max-w-[1200px] mx-auto">
         <div className="mb-12">
           <h2 className="text-3xl font-bold text-foreground mb-3">前端搭建与 Demo 落地工作流</h2>
@@ -1325,11 +1382,7 @@ function FigmaMakeWorkflow() {
                     <p className="text-sm text-muted-foreground">打开 Figma 后，在左侧导航或创建入口中选择 Create new / New，然后选择 Make，进入 AI 交互面板。</p>
                   </div>
                   <div className="bg-muted/50 p-2 rounded-xl border border-border/50 w-full min-w-0">
-                    <img
-                      src={figmaMakeEntryImage}
-                      alt="Figma Make 入口示意图"
-                      className="w-full h-auto rounded-lg border border-slate-200 object-contain bg-white shadow-sm"
-                    />
+                    <ZoomableImage src={figmaMakeEntryImage} alt="Figma Make 入口示意图" />
                   </div>
                 </div>
               </div>
@@ -1342,11 +1395,7 @@ function FigmaMakeWorkflow() {
               <div className="p-5 rounded-2xl bg-card border border-border shadow-sm">
                 <div className="grid grid-cols-1 xl:grid-cols-[minmax(420px,1.25fr)_minmax(0,0.95fr)] gap-5 items-start">
                   <div className="bg-muted/40 p-2 rounded-xl border border-border/50 min-w-0">
-                    <img
-                      src={figmaMakePromptImage}
-                      alt="Figma Make 提示词输入与模板示意图"
-                      className="w-full h-auto rounded-lg border border-slate-200 object-contain bg-white shadow-sm"
-                    />
+                    <ZoomableImage src={figmaMakePromptImage} alt="Figma Make 提示词输入与模板示意图" />
                   </div>
 
                   <div className="min-w-0">
@@ -1382,11 +1431,7 @@ function FigmaMakeWorkflow() {
 
                 <div className="grid grid-cols-1 xl:grid-cols-[minmax(360px,0.9fr)_minmax(0,1.1fr)] gap-5 items-start">
                   <div className="bg-muted/40 p-2 rounded-xl border border-border/50 min-w-0">
-                    <img
-                      src={figmaMakePublishImage}
-                      alt="Figma Make Publish 和 Share 入口示意图"
-                      className="w-full h-auto rounded-lg border border-slate-200 object-contain bg-white shadow-sm"
-                    />
+                    <ZoomableImage src={figmaMakePublishImage} alt="Figma Make Publish 和 Share 入口示意图" />
                   </div>
 
                   <div className="grid grid-cols-1 gap-2">
@@ -1447,11 +1492,7 @@ function FigmaMakeWorkflow() {
               <div className="p-5 rounded-2xl bg-card border border-border shadow-sm">
                 <div className="grid grid-cols-1 xl:grid-cols-[minmax(360px,0.9fr)_minmax(0,1.1fr)] gap-5 items-start">
                   <div className="bg-muted/40 p-2 rounded-xl border border-border/50 min-w-0">
-                    <img
-                      src={codexRebuildImage}
-                      alt="把 Figma Make 导出的代码交给 Codex 复现前端"
-                      className="w-full h-auto rounded-lg border border-slate-200 object-contain bg-white shadow-sm"
-                    />
+                    <ZoomableImage src={codexRebuildImage} alt="把 Figma Make 导出的代码交给 Codex 复现前端" />
                   </div>
                   <div className="min-w-0">
                     <h4 className="font-bold text-lg text-foreground mb-2">Step 5｜用 Codex 复现可运行前端</h4>
@@ -1476,11 +1517,7 @@ function FigmaMakeWorkflow() {
               <div className="p-5 rounded-2xl bg-card border border-border shadow-sm">
                 <div className="grid grid-cols-1 xl:grid-cols-[minmax(360px,0.9fr)_minmax(0,1.1fr)] gap-5 items-start">
                   <div className="bg-muted/40 p-2 rounded-xl border border-border/50 min-w-0">
-                    <img
-                      src={mcpSetupImage}
-                      alt="Codex 连接 Figma MCP 服务器界面"
-                      className="w-full h-auto rounded-lg border border-slate-200 object-contain bg-white shadow-sm"
-                    />
+                    <ZoomableImage src={mcpSetupImage} alt="Codex 连接 Figma MCP 服务器界面" />
                   </div>
                   <div className="min-w-0">
                     <h4 className="font-bold text-lg text-foreground mb-2">Step 6｜连接 Figma MCP，同步设计上下文</h4>
